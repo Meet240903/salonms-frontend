@@ -23,6 +23,7 @@ import { Edit, Delete } from "@mui/icons-material";
 import axios from "axios";
 import { FaPlus } from "react-icons/fa";
 import { addStaff, deleteStaff, editStaff, getCustomers, showStaffList } from "../../services/userService";
+import FullScreenLoader from "../../components/FullScreenLoader";
 
 const roles = [
     "Admin",
@@ -39,6 +40,7 @@ const roles = [
 
 const CustomerList = () => {
     const [customerList, setCustomerList] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     // Fetch staff list on load
     useEffect(() => {
@@ -46,17 +48,21 @@ const CustomerList = () => {
     }, []);
 
     const fetchCustomer = async () => {
+        setLoading(true)
         try {
             const res = await getCustomers();
             setCustomerList(res);
 
         } catch (error) {
             console.error("Error fetching customers:", error);
+        } finally {
+            setLoading(false)
         }
     };
 
     return (
         <div style={{ padding: "20px" }}>
+            {loading && <FullScreenLoader />}
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold">Customers</h2>
             </div>

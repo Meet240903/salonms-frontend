@@ -1,0 +1,28 @@
+.fullscreen-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader {
+  border: 8px solid white;
+  border-top: 8px solid #ec4899; /* Tailwind pink-500 */
+  border-radius: 50%;
+  width: 5rem; /* h-20 */
+  height: 5rem; /* w-20 */
+  animation: spin 1s linear infinite;
+}
+
+/* Spinning animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

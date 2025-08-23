@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../../assets/style/Login.css";
 import { addUser } from "../../services/userService";
+import FullScreenLoader from "../../components/FullScreenLoader";
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const Register = () => {
         role: "customer"
     });
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         setFormData({
@@ -24,7 +26,7 @@ const Register = () => {
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();  // Prevent the default form submission (which would cause a page reload)
-
+        setLoading(true);
         try {
             const response = await addUser(formData);  // Send form data to the backend
             console.log('Registration successful:', response);
@@ -32,11 +34,14 @@ const Register = () => {
             navigate("/login");  // Redirect to login page
         } catch (error) {
             console.error('API Error:', error.response?.data || error.message);
+        } finally {
+            setLoading(false)
         }
     };
 
     return (
         <div className="animated-bg flex items-center justify-center min-h-screen">
+            {loading && <FullScreenLoader />}
             <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg transform transition-all duration-300 hover:shadow-xl">
                 <h2 className="text-3xl font-bold mb-6 text-center text-pink-600">Create Account</h2>
                 <form onSubmit={handleSubmit} className="space-y-5">  {/* Use onSubmit here instead of onClick */}

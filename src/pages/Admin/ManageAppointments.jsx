@@ -5,12 +5,14 @@ import { showStaffList } from "../../services/staffService";
 import { getCustomers } from "../../services/userService";
 import { addNewAppointment, editAppointment, getAllAppointments } from "../../services/appointmentService";
 import { getAllService } from "../../services/beautyTreatmentService";
+import FullScreenLoader from "../../components/FullScreenLoader";
 
 const ManageAppointments = () => {
     const [appointments, setAppointments] = useState([]);
     const [staffList, setStaffList] = useState([]);
     const [serviceList, setServiceList] = useState([]);
     const [customerList, setCustomerList] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         fetchStaff();
@@ -40,12 +42,15 @@ const ManageAppointments = () => {
     };
 
     const fetchAppointments = async () => {
+        setLoading(true)
         try {
             const res = await getAllAppointments();
             setAppointments(res);
 
         } catch (error) {
             console.error("Error fetching appointments:", error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -144,6 +149,7 @@ const ManageAppointments = () => {
             return;
         }
 
+        setLoading(true)
         try {
             const payload = {
                 ...newAppointment,
@@ -173,6 +179,8 @@ const ManageAppointments = () => {
             fetchAppointments();
         } catch (error) {
             console.error("Error saving appointment:", error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -200,6 +208,7 @@ const ManageAppointments = () => {
 
     return (
         <div className="p-4">
+            {loading && <FullScreenLoader />}
             {/* Header */}
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold">Manage Appointments</h2>
