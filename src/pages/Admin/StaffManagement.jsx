@@ -23,6 +23,7 @@ import { Edit, Delete } from "@mui/icons-material";
 import axios from "axios";
 import { FaPlus } from "react-icons/fa";
 import { addStaff, deleteStaff, editStaff, showStaffList } from "../../services/staffService";
+import FullScreenLoader from "../../components/FullScreenLoader";
 
 const roles = [
     "Admin",
@@ -42,6 +43,7 @@ const StaffManagement = () => {
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState({ name: "", email: "", phone: "", roles: [] });
     const [editing, setEditing] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     // Fetch staff list on load
     useEffect(() => {
@@ -49,6 +51,7 @@ const StaffManagement = () => {
     }, []);
 
     const fetchStaff = async () => {
+        setLoading(true);
         try {
             const res = await showStaffList();
             setStaffList(res);
@@ -57,6 +60,8 @@ const StaffManagement = () => {
 
         } catch (error) {
             console.error("Error fetching staff:", error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -101,6 +106,7 @@ const StaffManagement = () => {
     };
 
     const handleSave = async () => {
+        setLoading(true)
         try {
             if (editing) {
                 await editStaff(formData?.id, formData);
@@ -111,11 +117,14 @@ const StaffManagement = () => {
             handleClose();
         } catch (error) {
             console.error("Error saving staff:", error);
+        } finally {
+            setLoading(false)
         }
     };
 
     const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this staff?")) {
+            setLoading(true)
             try {
                 const staff = {
                     id: id
@@ -126,12 +135,15 @@ const StaffManagement = () => {
                 fetchStaff();
             } catch (error) {
                 console.error("Error deleting staff:", error);
+            } finally {
+                setLoading(false)
             }
         }
     };
 
     return (
         <div style={{ padding: "20px" }}>
+            {loading && <FullScreenLoader />}
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold">Manage Staff</h2>
                 <button

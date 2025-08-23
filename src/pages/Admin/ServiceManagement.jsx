@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 import { addService, getAllService } from '../../services/beautyTreatmentService';
+import FullScreenLoader from '../../components/FullScreenLoader';
 
 const ServiceManagement = () => {
     const [services, setServices] = useState([]);
@@ -9,6 +10,7 @@ const ServiceManagement = () => {
     const [search, setSearch] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [editingService, setEditingService] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const [newService, setNewService] = useState({
         name: '',
@@ -22,11 +24,14 @@ const ServiceManagement = () => {
     }, []);
 
     const fetchService = async () => {
+        setLoading(true)
         try {
             const res = await getAllService();
             setServices(res);
         } catch (error) {
             console.error("Error fetching services:", error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -39,7 +44,7 @@ const ServiceManagement = () => {
             alert('Please fill all required fields.');
             return;
         }
-
+        setLoading(true)
         try {
             if (editingService) {
                 // await editStaff(formData?.id, formData);
@@ -50,6 +55,8 @@ const ServiceManagement = () => {
             handleClose();
         } catch (error) {
             console.error("Error saving service:", error);
+        } finally {
+            setLoading(false)
         }
 
         setShowModal(false);
@@ -82,6 +89,7 @@ const ServiceManagement = () => {
 
     return (
         <div className="p-6">
+            {loading && <FullScreenLoader />}
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold">Service Management</h2>
                 <Button

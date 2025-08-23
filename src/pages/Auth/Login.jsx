@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../../utils/auth";
 import "../../assets/style/Login.css";
 import { loginWithApi } from "../../services/userService";
+import FullScreenLoader from "../../components/FullScreenLoader";
 
 function Login() {
     const navigate = useNavigate();
@@ -11,6 +12,7 @@ function Login() {
         password: "",
         role: "customer",
     });
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -19,7 +21,7 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setLoading(true);
         try {
             const credentials = {
                 userName: form.username,  // use correct key if backend expects 'userName'
@@ -42,11 +44,14 @@ function Login() {
         } catch (error) {
             console.error("Login failed:", error.response?.data || error.message);
             alert("Invalid credentials. Please try again.");
+        } finally {
+            setLoading(false)
         }
     };
 
     return (
         <div className="animated-bg flex items-center justify-center min-h-screen">
+            {loading && <FullScreenLoader />}
             <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg transform transition-all duration-300 hover:shadow-xl">
                 <h2 className="text-3xl font-bold mb-6 text-center text-pink-600">
                     Sign in to SalonMS
