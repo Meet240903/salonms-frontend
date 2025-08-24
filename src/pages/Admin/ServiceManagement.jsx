@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
-import { addService, getAllService } from '../../services/beautyTreatmentService';
+import { addService, deleteService, editService, getAllService } from '../../services/beautyTreatmentService';
 import FullScreenLoader from '../../components/FullScreenLoader';
 
 const ServiceManagement = () => {
@@ -47,7 +47,7 @@ const ServiceManagement = () => {
         setLoading(true)
         try {
             if (editingService) {
-                // await editStaff(formData?.id, formData);
+                await editService(editingService?.id, newService);
             } else {
                 await addService(newService);
             }
@@ -75,9 +75,20 @@ const ServiceManagement = () => {
         setShowModal(true);
     };
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this service?')) {
-            setServices(services.filter(service => service.id !== id));
+            setLoading(true)
+            try {
+                const payload = {
+                    id: id
+                }
+                await deleteService(payload)
+            } catch (error) {
+                console.error("Error while deleting service:", error);
+            } finally {
+                setLoading(false);
+            }
+            fetchService();
         }
     };
 

@@ -14,3 +14,8 @@ export const editAppointment = async (id, appointmentData) => {
     const response = await API.put(`/appointment/edit-appointment/${id}`, appointmentData);
     return response.data;
 };
+
+export const deleteAppointment = async (appointmentData) => {
+    const response = await API.delete('/appointment/delete-appointment', appointmentData);
+    return response.data;
+};

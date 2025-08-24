@@ -5,7 +5,7 @@ export const addUser = async (userData) => {
   return response.data;
 };
 
-export const getCustomers = async (userData) => {
+export const getCustomers = async () => {
   const response = await API.post('/auth/registration/get-customers');
   return response.data;
 };

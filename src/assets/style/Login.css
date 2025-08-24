@@ -1,10 +1,18 @@
 .animated-bg {
-  background: linear-gradient(-45deg, #ffe4ec, #ffc4d6, #ff9eb6, #ffb6c1);
-  background-size: 400% 400%;
-  animation: gradientMove 5s ease infinite;
+  background: linear-gradient(
+    -45deg,
+    #ffb6c1,
+    #ff9eb6,
+    #ff6f91,
+    #ff4f81,
+    #ff85a1,
+    #ffc1cc
+  );
+  background-size: 600% 600%;
+  animation: pinkFlow 5s ease infinite;
 }
 
-@keyframes gradientMove {
+@keyframes pinkFlow {
   0% {
     background-position: 0% 50%;
   }
