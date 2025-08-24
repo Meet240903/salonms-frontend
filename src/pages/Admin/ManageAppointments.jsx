@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import { showStaffList } from "../../services/staffService";
 import { getCustomers } from "../../services/userService";
-import { addNewAppointment, editAppointment, getAllAppointments } from "../../services/appointmentService";
+import { addNewAppointment, deleteAppointment, editAppointment, getAllAppointments } from "../../services/appointmentService";
 import { getAllService } from "../../services/beautyTreatmentService";
 import FullScreenLoader from "../../components/FullScreenLoader";
 
@@ -157,7 +157,7 @@ const ManageAppointments = () => {
             };
 
             if (isEditMode) {
-                editAppointment(editingAppointmentId, payload);
+                await editAppointment(editingAppointmentId, payload);
             } else {
                 await addNewAppointment(payload);
             }
@@ -200,8 +200,19 @@ const ManageAppointments = () => {
         setEditingAppointmentId(null);
     };
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this appointment?")) {
+            setLoading(true)
+            try {
+                const payload = {
+                    id: id
+                };
+                await deleteAppointment(payload);
+            } catch (error) {
+                console.error("Error while deleting appointment:", error);
+            } finally {
+                setLoading(false)
+            }
             setAppointments(appointments.filter((a) => a.id !== id));
         }
     };

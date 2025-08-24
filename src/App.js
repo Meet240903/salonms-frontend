@@ -19,7 +19,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Public Route */}
+        {/* Public Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
@@ -32,6 +32,7 @@ function App() {
             </ProtectedRoute>
           }
         >
+          <Route index element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="appointments" element={<ManageAppointments />} />
           <Route path="staff" element={<StaffManagement />} />
@@ -55,7 +56,7 @@ function App() {
           <Route path="services" element={<Services />} />
         </Route>
 
-        {/* Catch-all: redirect unknown routes */}
+        {/* Catch-all */}
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>

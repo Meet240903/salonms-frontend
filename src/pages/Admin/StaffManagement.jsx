@@ -92,6 +92,7 @@ const StaffManagement = () => {
     const handleClose = () => {
         setOpen(false);
         setFormData({ name: "", email: "", phone: "", roles: [] });
+        setEditing(false)
     }
 
     const handleChange = (e) => {
@@ -197,6 +198,7 @@ const StaffManagement = () => {
                     <div className="bg-white rounded shadow-lg p-6 w-100 animate-scaleFade">
                         <h3 className="text-xl font-bold mb-4">
                             {editing ? "Edit Staff" : "Add Staff"}
+                            {editing}
                         </h3>
                         <TextField
                             margin="dense"
