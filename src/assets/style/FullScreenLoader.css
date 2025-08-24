@@ -6,23 +6,39 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.8rem; /* space between dots */
 }
 
-.loader {
-  border: 8px solid white;
-  border-top: 8px solid #ec4899; /* Tailwind pink-500 */
+.dot {
+  width: 1.5rem; /* size of dots */
+  height: 1.5rem;
+  background-color: #ec4899; /* Tailwind pink-500 */
   border-radius: 50%;
-  width: 5rem; /* h-20 */
-  height: 5rem; /* w-20 */
-  animation: spin 1s linear infinite;
+  animation: bounce 0.6s infinite ease-in-out;
 }
 
-/* Spinning animation */
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
+/* Delay each dot */
+.dot:nth-child(1) {
+  animation-delay: 0s;
+  background-color: #ec4899;
+}
+.dot:nth-child(2) {
+  animation-delay: 0.3s;
+  background-color: #ee4f9e;
+}
+.dot:nth-child(3) {
+  animation-delay: 0.5s;
+  background-color: #f055a2;
+}
+
+/* Bounce / scaling effect */
+@keyframes bounce {
+  0%,
+  80%,
   100% {
-    transform: rotate(360deg);
+    transform: scale(0.6);
+  }
+  40% {
+    transform: scale(1);
   }
 }

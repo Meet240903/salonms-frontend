@@ -6,6 +6,7 @@ import { getCustomers } from "../../services/userService";
 import { addNewAppointment, deleteAppointment, editAppointment, getAllAppointments } from "../../services/appointmentService";
 import { getAllService } from "../../services/beautyTreatmentService";
 import FullScreenLoader from "../../components/FullScreenLoader";
+import '../../assets/style/admin/ManageAppointment.css'
 
 const ManageAppointments = () => {
     const [appointments, setAppointments] = useState([]);
@@ -441,17 +442,6 @@ const ManageAppointments = () => {
                     </div>
                 </div>
             )}
-
-            {/* Tailwind Animation */}
-            <style>{`
-        @keyframes scaleFade {
-          0% { transform: scale(0.8); opacity: 0; }
-          100% { transform: scale(1); opacity: 1; }
-        }
-        .animate-scaleFade {
-          animation: scaleFade 0.3s ease-out forwards;
-        }
-      `}</style>
         </div>
     );
 };
